@@ -1,7 +1,8 @@
 FROM microsoft/powershell:ubuntu16.04
-MAINTAINER Andrew Schwartzmeyer <andschwa@microsoft.com>
-LABEL Readme.md="https://github.com/PowerShell/PowerShell/blob/master/docker/README.md"
-LABEL Description="This Dockerfile will install and build the latest release of PS."
+
+LABEL maintainer="PowerShell Team <powershellteam@hotmail.com>"
+LABEL readme.md="https://github.com/PowerShell/PowerShell/blob/master/docker/README.md"
+LABEL description="This Dockerfile will install the latest release of PS."
 
 ARG fork=PowerShell
 ARG branch=master
@@ -10,7 +11,7 @@ RUN git clone --recursive https://github.com/$env:fork/PowerShell.git -b $env:br
     Set-Location PowerShell; \
     Import-Module ./build.psm1; \
     Start-PSBootstrap -Package -NoSudo; \
-    Start-PSBuild -Crossgen; \
+    Start-PSBuild -Crossgen -PSModuleRestore; \
     Start-PSPackage;
 
 SHELL ["/bin/sh", "-c"]
